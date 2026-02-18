@@ -15,7 +15,7 @@ function Navbar() {
     };
 
     // Calculate total cart items (you'll need to implement this based on your cart structure)
-    const cartCount = cartItems?.reduce((total, item) => total + item.quantity, 0) || 0;
+    const cartCount = Object.values(cartItems || {}).reduce((total, quantity) => total + quantity, 0);
 
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
