@@ -56,11 +56,32 @@ import toast from "react-hot-toast";
     setCartItems(cartData);
    }
 
+   const getCartCount = () => {
+  let totalCount = 0;
+  for (const item in cartItems) {
+    totalCount += cartItems[item];
+  }
+  return totalCount;
+};
+
+const getCartAmount = () => {
+  let totalAmount = 0;
+
+  for (const item in cartItems) {
+    const product = products.find(p => p._id === item);
+    if (product) {
+      totalAmount += product.offerPrice * cartItems[item];
+    }
+  }
+
+  return totalAmount;
+};
+
    useEffect(() => {
     fetchProducts();
    }, []);
 
-   const value = {navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart, cartItems, searchQuery, setSearchQuery};
+   const value = {navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount};
 
    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 
