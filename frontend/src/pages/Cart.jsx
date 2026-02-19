@@ -35,7 +35,7 @@ const Cart = () => {
         <div className="flex flex-col md:flex-row mt-16">
             <div className='flex-1 max-w-4xl'>
                 <h1 className="text-3xl font-medium mb-6">
-                    Shopping Cart <span className="text-sm text-indigo-500">{getCartCount()} Items</span>
+                    Shopping Cart <span className="text-sm text-indigo-600">{getCartCount()} Items</span>
                 </h1>
 
                 <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
@@ -58,7 +58,7 @@ const Cart = () => {
                                     <p>Weight: <span>{product.weight || "N/A"}</span></p>
                                     <div className='flex items-center'>
                                         <p>Qty:</p>
-                                        <select className='outline-none'>
+                                        <select onChange={e => updateCartItem(product._id, Number(e.target.value))} value={cartItems[product._id]} className='outline-none'>
                                             {Array(cartItems[product._id] > 9 ? cartItems[product._id] : 9).fill('').map((_, index) => (
                                                 <option key={index} value={index + 1}>{index + 1}</option>
                                             ))}
@@ -74,7 +74,7 @@ const Cart = () => {
                     </div>)
                 )}
 
-                <button onClick={() => {navigate("/products"); scrollTo(0,0)}} className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-500 font-medium">
+                <button onClick={() => {navigate("/products"); scrollTo(0,0)}} className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-600 font-medium">
                    <img src={assets.arrow_right_icon_colored} alt='arrow' className="group-hover:-translate-x-1 transition"/>
                     Continue Shopping
                 </button>
@@ -119,7 +119,7 @@ const Cart = () => {
                         <span>Price</span><span>{currency}{getCartAmount()}</span>
                     </p>
                     <p className="flex justify-between">
-                        <span>Shipping Fee</span><span className="text-green-600">Free</span>
+                        <span>Shipping Fee</span><span className="text-indigo-600">Free</span>
                     </p>
                     <p className="flex justify-between">
                         <span>Tax (2%)</span><span>{currency}{getCartAmount() * 0.02}</span>
@@ -129,7 +129,7 @@ const Cart = () => {
                     </p>
                 </div>
 
-                <button onClick={placeOrder} className="w-full py-3 mt-6 cursor-pointer bg-indigo-500 text-white font-medium hover:bg-indigo-600 transition">
+                <button onClick={placeOrder} className="w-full py-3 mt-6 cursor-pointer bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
                     {paymentMethod === "COD" ? "Place Order" : "Proceed to Pay"}
                 </button>
             </div>
