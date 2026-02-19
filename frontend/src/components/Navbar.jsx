@@ -15,16 +15,14 @@ function Navbar() {
         navigate('/');
     };
 
-    // Calculate total cart items (you'll need to implement this based on your cart structure)
+    // Calculate total cart items
     const cartCount = Object.values(cartItems || {}).reduce((total, quantity) => total + quantity, 0);
 
     useEffect(() => {
         if (searchQuery.length > 0) {
             navigate('/products');
         }
-    }, [searchQuery]
-    );
-    
+    }, [searchQuery]);
 
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
@@ -103,7 +101,7 @@ function Navbar() {
                         </div>
                     </div>
 
-                    {/* Compact search icon for medium screens - FIXED: Added search functionality */}
+                    {/* Compact search icon for medium screens */}
                     <button 
                         onClick={() => setSearchOpen(!searchOpen)}
                         className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -111,7 +109,7 @@ function Navbar() {
                         <img src={assets.search_icon} alt='search' className="w-5 h-5" />
                     </button>
 
-                    {/* Cart with animation */}
+                    {/* Cart with animation - FOR DESKTOP */}
                     <div 
                         onClick={() => navigate('/cart')} 
                         className="relative cursor-pointer group"
@@ -186,32 +184,84 @@ function Navbar() {
                     )}
                 </div>
 
-                {/* Mobile menu button with animation */}
-                <button 
-                    onClick={() => setOpen(!open)} 
-                    aria-label="Menu" 
-                    className="sm:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-                >
-                    <div className="relative w-6 h-5">
-                        <span className={`absolute w-6 h-0.5 bg-gray-600 transform transition-all duration-300 
-                        ${open ? 'rotate-45 top-2' : 'rotate-0 top-0'}`}></span>
-                        <span className={`absolute w-6 h-0.5 bg-gray-600 top-2 transition-opacity duration-300 
-                        ${open ? 'opacity-0' : 'opacity-100'}`}></span>
-                        <span className={`absolute w-6 h-0.5 bg-gray-600 transform transition-all duration-300 
-                        ${open ? '-rotate-45 top-2' : 'rotate-0 top-4'}`}></span>
+                {/* Mobile/Medium screen right side icons - FIXED: Added cart here */}
+                <div className="flex items-center gap-2 sm:hidden">
+                    {/* Cart for mobile/medium screens - ADDED */}
+                    <div 
+                        onClick={() => navigate('/cart')} 
+                        className="relative cursor-pointer group p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    >
+                        <img 
+                            src={assets.nav_cart_icon} 
+                            alt='cart' 
+                            className="w-5 h-5"
+                        />
+                        {cartCount > 0 && (
+                            <button className="absolute -top-1 -right-1 text-xs text-white bg-gradient-to-r 
+                            from-indigo-500 to-purple-500 w-5 h-5 rounded-full flex items-center 
+                            justify-center font-medium shadow-sm animate-pulse">
+                                {cartCount}
+                            </button>
+                        )}
                     </div>
-                </button>
 
-                {/* Mobile search toggle */}
-                <button 
-                    onClick={() => setSearchOpen(!searchOpen)}
-                    className="sm:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                >
-                    <img src={assets.search_icon} alt='search' className="w-5 h-5" />
-                </button>
+                    {/* Mobile search toggle */}
+                    <button 
+                        onClick={() => setSearchOpen(!searchOpen)}
+                        className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    >
+                        <img src={assets.search_icon} alt='search' className="w-5 h-5" />
+                    </button>
+
+                    {/* Mobile menu button */}
+                    <button 
+                        onClick={() => setOpen(!open)} 
+                        aria-label="Menu" 
+                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                    >
+                        <div className="relative w-6 h-5">
+                            <span className={`absolute w-6 h-0.5 bg-gray-600 transform transition-all duration-300 
+                            ${open ? 'rotate-45 top-2' : 'rotate-0 top-0'}`}></span>
+                            <span className={`absolute w-6 h-0.5 bg-gray-600 top-2 transition-opacity duration-300 
+                            ${open ? 'opacity-0' : 'opacity-100'}`}></span>
+                            <span className={`absolute w-6 h-0.5 bg-gray-600 transform transition-all duration-300 
+                            ${open ? '-rotate-45 top-2' : 'rotate-0 top-4'}`}></span>
+                        </div>
+                    </button>
+                </div>
+
+                {/* For medium screens (sm to lg) - ADDED cart for medium screens */}
+                <div className="hidden sm:flex lg:hidden items-center gap-2">
+                    {/* Cart for medium screens - ADDED */}
+                    <div 
+                        onClick={() => navigate('/cart')} 
+                        className="relative cursor-pointer group p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    >
+                        <img 
+                            src={assets.nav_cart_icon} 
+                            alt='cart' 
+                            className="w-5 h-5"
+                        />
+                        {cartCount > 0 && (
+                            <button className="absolute -top-1 -right-1 text-xs text-white bg-gradient-to-r 
+                            from-indigo-500 to-purple-500 w-5 h-5 rounded-full flex items-center 
+                            justify-center font-medium shadow-sm animate-pulse">
+                                {cartCount}
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Compact search icon for medium screens */}
+                    <button 
+                        onClick={() => setSearchOpen(!searchOpen)}
+                        className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    >
+                        <img src={assets.search_icon} alt='search' className="w-5 h-5" />
+                    </button>
+                </div>
             </div>
 
-            {/* Mobile/Medium screen search bar - FIXED: Added search functionality */}
+            {/* Mobile/Medium screen search bar */}
             {searchOpen && (
                 <div className="px-4 pb-3 animate-slideDown lg:hidden">
                     <div className="relative">
@@ -233,7 +283,7 @@ function Navbar() {
                 </div>
             )}
 
-            {/* Mobile Menu with slide-down animation */}
+            {/* Mobile Menu with slide-down animation - UPDATED: Removed cart from here since it's now in the header */}
             {open && (
                 <div className="sm:hidden bg-white border-t border-gray-100 shadow-lg animate-slideDown">
                     <div className="px-4 py-3 space-y-2">
