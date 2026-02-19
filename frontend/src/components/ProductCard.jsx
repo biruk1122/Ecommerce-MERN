@@ -3,7 +3,6 @@ import { useAppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 
 const ProductCard = ({ product }) => {
-  const [count, setCount] = React.useState(0);
   const [isHovered, setIsHovered] = React.useState(false);
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const { currency, addToCart, removeFromCart, cartItems, navigate } = useAppContext();
@@ -24,7 +23,7 @@ const ProductCard = ({ product }) => {
   };
 
   const handleCardClick = () => {
-    navigate(`/product/${product._id}`);
+    navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0, 0);
   };
 
   const discountPercentage = product.price && product.offerPrice 

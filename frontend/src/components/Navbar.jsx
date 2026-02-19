@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
 function Navbar() {
     const [open, setOpen] = React.useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
-    const { user, setUser, setShowUserLogin, navigate, cartItems } = useAppContext();
+
+    const { user, setUser, setShowUserLogin, navigate, cartItems, setSearchQuery, searchQuery } = useAppContext();
 
     const logout = async () => {
         setUser(null);
@@ -16,6 +17,14 @@ function Navbar() {
 
     // Calculate total cart items (you'll need to implement this based on your cart structure)
     const cartCount = Object.values(cartItems || {}).reduce((total, quantity) => total + quantity, 0);
+
+    useEffect(() => {
+        if (searchQuery.length > 0) {
+            navigate('/products');
+        }
+    }, [searchQuery]
+    );
+    
 
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
@@ -78,7 +87,7 @@ function Navbar() {
                     {/* Search Bar - Expanded version for desktop */}
                     <div className="hidden lg:flex items-center">
                         <div className="relative group">
-                            <input 
+                            <input onChange={(e) => setSearchQuery(e.target.value)} 
                                 className="w-64 py-2 pl-4 pr-10 text-sm border border-gray-200 rounded-full 
                                 focus:outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 
                                 transition-all duration-300 bg-gray-50 hover:bg-white"
@@ -94,7 +103,7 @@ function Navbar() {
                         </div>
                     </div>
 
-                    {/* Compact search icon for medium screens */}
+                    {/* Compact search icon for medium screens - FIXED: Added search functionality */}
                     <button 
                         onClick={() => setSearchOpen(!searchOpen)}
                         className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -202,11 +211,12 @@ function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile search bar */}
+            {/* Mobile/Medium screen search bar - FIXED: Added search functionality */}
             {searchOpen && (
-                <div className="sm:hidden px-4 pb-3 animate-slideDown">
+                <div className="px-4 pb-3 animate-slideDown lg:hidden">
                     <div className="relative">
                         <input 
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 rounded-full 
                             focus:outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 
                             transition-all duration-300 bg-gray-50"
@@ -320,23 +330,6 @@ function Navbar() {
                     </div>
                 </div>
             )}
-
-            {/* Add these styles to your global CSS or Tailwind config */}
-            <style jsx>{`
-                @keyframes slideDown {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .animate-slideDown {
-                    animation: slideDown 0.3s ease-out;
-                }
-            `}</style>
         </nav>
     );
 }
