@@ -104,7 +104,7 @@ function Navbar() {
                     {/* Compact search icon for medium screens */}
                     <button 
                         onClick={() => setSearchOpen(!searchOpen)}
-                        className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                        className="hidden lg:flex p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
                     >
                         <img src={assets.search_icon} alt='search' className="w-5 h-5" />
                     </button>
@@ -112,7 +112,7 @@ function Navbar() {
                     {/* Cart with animation - FOR DESKTOP */}
                     <div 
                         onClick={() => navigate('/cart')} 
-                        className="relative cursor-pointer group"
+                        className="relative cursor-pointer group hidden lg:block"
                     >
                         <div className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
                             <img 
